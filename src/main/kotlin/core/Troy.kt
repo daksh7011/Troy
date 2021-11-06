@@ -59,7 +59,7 @@ suspend fun getTroy(): ExtensibleBot {
             add(::Reboot)
             add(::Avatar)
             add(::Repo)
-            add(::Steam)
+            // add(::Steam)
             add(::Emoji)
             add(::SarcasticCatNo)
             add(::Sike)
