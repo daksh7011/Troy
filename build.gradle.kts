@@ -21,10 +21,10 @@ repositories {
 }
 
 dependencies {
-    implementation("dev.kord:kord-core:0.8.0-M7")
+    implementation("dev.kord:kord-core:0.8.0-M8")
     implementation("com.kotlindiscord.kord.extensions:kord-extensions:1.5.1-RC1")
     implementation("com.kotlindiscord.kord.extensions:time4j:1.5.1-RC1")
-    implementation("io.ktor:ktor-client-core:1.6.4")
+    implementation("io.ktor:ktor-client-core:1.6.7")
     implementation("org.slf4j:slf4j-simple:1.7.32")
     implementation("net.dean.jraw:JRAW:1.1.0")
     implementation("org.jetbrains.exposed:exposed-core:0.36.1")
