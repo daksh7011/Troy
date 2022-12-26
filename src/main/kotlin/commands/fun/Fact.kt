@@ -28,7 +28,7 @@ class Fact : Extension() {
         get() = "fact"
 
     override suspend fun setup() {
-        publicSlashCommand(Doggo::DoggoSlashArguments) {
+        publicSlashCommand {
             name = "fact"
             description = "Finds some useless facts."
             action {

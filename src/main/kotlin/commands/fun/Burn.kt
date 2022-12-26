@@ -23,11 +23,10 @@ class Burn : Extension() {
         get() = "burn"
 
     class BurnArguments : Arguments() {
-        val user by user("user", "Which user do you want to light on fire?")
-    }
-
-    class BurnSlashArguments : Arguments() {
-        val user by user("user", "Which user do you want to light on fire?")
+        val user by user {
+            name = "user"
+            description = "Which user do you want to light on fire?"
+        }
     }
 
     override suspend fun setup() {
@@ -56,7 +55,7 @@ class Burn : Extension() {
             }
         }
 
-        publicSlashCommand(::BurnSlashArguments) {
+        publicSlashCommand(::BurnArguments) {
             name = "burn"
             description = "Lights fire to mentioned user."
             action {

@@ -1,7 +1,9 @@
 package commands.`fun`
 
+import apiModels.UrbanDictItem
+import apiModels.UrbanDictModel
 import com.kotlindiscord.kord.extensions.commands.Arguments
-import com.kotlindiscord.kord.extensions.commands.converters.impl.coalescedString
+import com.kotlindiscord.kord.extensions.commands.converters.impl.string
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.chatCommand
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
@@ -17,12 +19,10 @@ import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.datetime.Clock
-import apiModels.UrbanDictItem
-import apiModels.UrbanDictModel
 import org.koin.core.component.inject
 import org.koin.core.logger.Level
-import utils.requestAndCatch
 import utils.getEmbedFooter
+import utils.requestAndCatch
 
 class UrbanDictionary : Extension() {
 
@@ -41,7 +41,10 @@ class UrbanDictionary : Extension() {
         get() = "urban"
 
     class UrbanDictArguments : Arguments() {
-        val search by coalescedString("query", "What do you want to search at UrbanDictionary?")
+        val search by string {
+            name = "query"
+            description = "What do you want to search at UrbanDictionary?"
+        }
     }
 
     override suspend fun setup() {
@@ -58,6 +61,7 @@ class UrbanDictionary : Extension() {
                         HttpStatusCode.NotFound -> {
                             this@action.message.respond("Can't the data for ${arguments.search}")
                         }
+
                         else -> getKoin().logger.log(Level.ERROR, localizedMessage)
                     }
                 })
@@ -95,6 +99,7 @@ class UrbanDictionary : Extension() {
                         HttpStatusCode.NotFound -> {
                             this@action.respond { content = "Can't the data for ${arguments.search}" }
                         }
+
                         else -> getKoin().logger.log(Level.ERROR, localizedMessage)
                     }
                 })

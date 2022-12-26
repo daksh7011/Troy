@@ -1,5 +1,6 @@
 package commands.nsfw
 
+import apiModels.NoodsModel
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.converters.impl.defaultingString
 import com.kotlindiscord.kord.extensions.extensions.Extension
@@ -11,7 +12,6 @@ import dev.kord.core.Kord
 import dev.kord.core.behavior.channel.createEmbed
 import dev.kord.rest.builder.message.create.embed
 import kotlinx.datetime.Clock
-import apiModels.NoodsModel
 import net.dean.jraw.models.SubredditSort
 import org.koin.core.component.inject
 import utils.DataProvider
@@ -28,7 +28,11 @@ class Nudes : Extension() {
     override val name: String get() = "nudes"
 
     class NudesArguments : Arguments() {
-        val category by defaultingString("category", "What will tickle your pickle?", "random")
+        val category by defaultingString {
+            name = "category"
+            description = "What will tickle your pickle?"
+            defaultValue = "random"
+        }
     }
 
     override suspend fun setup() {

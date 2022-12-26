@@ -36,7 +36,10 @@ class Rule34 : Extension() {
     }
 
     class Rule34Arguments : Arguments() {
-        val search by string("search", "What do you want to see?")
+        val search by string {
+            name = "search"
+            description = "What do you want to see?"
+        }
     }
 
     override suspend fun setup() {

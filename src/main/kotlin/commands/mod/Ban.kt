@@ -2,7 +2,7 @@ package commands.mod
 
 import com.kotlindiscord.kord.extensions.checks.hasPermission
 import com.kotlindiscord.kord.extensions.commands.Arguments
-import com.kotlindiscord.kord.extensions.commands.converters.impl.coalescedString
+import com.kotlindiscord.kord.extensions.commands.converters.impl.string
 import com.kotlindiscord.kord.extensions.commands.converters.impl.user
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.chatCommand
@@ -28,8 +28,14 @@ class Ban : Extension() {
         get() = "ban"
 
     inner class BanArguments : Arguments() {
-        val user by user("user", "Which user do you want to ban?")
-        val reason by coalescedString("reason", "Reason for the ban")
+        val user by user {
+            name = "user"
+            description = "Which user do you want to ban?"
+        }
+        val reason by string {
+            name = "reason"
+            description = "Reason for the ban"
+        }
     }
 
     override suspend fun setup() {

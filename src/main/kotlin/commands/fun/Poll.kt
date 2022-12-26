@@ -45,13 +45,25 @@ class Poll : Extension() {
         get() = "poll"
 
     inner class PollArguments : Arguments() {
-        val title by string("title", "Title for poll")
-        val options by stringList("options", "Options for poll")
+        val title by string {
+            name = "title"
+            description = "Title for poll"
+        }
+        val options by stringList {
+            name = "options"
+            description = "Options for poll"
+        }
     }
 
     inner class PollSlashArguments : Arguments() {
-        val title by string("title", "Title for poll")
-        val options by string("options", "Options for poll seperated by comma.")
+        val title by string {
+            name = "title"
+            description = "Title for poll"
+        }
+        val options by string {
+            name = "options"
+            description = "Options for poll seperated by comma."
+        }
     }
 
     override suspend fun setup() {

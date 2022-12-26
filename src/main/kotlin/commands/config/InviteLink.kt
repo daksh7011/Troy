@@ -18,10 +18,10 @@ class InviteLink : Extension() {
         get() = "invite-link"
 
     inner class InviteLinkArgument : Arguments() {
-        val inviteLink by optionalString(
-            "url",
-            "Provide Permanent invite link for this server.",
-        )
+        val inviteLink by optionalString {
+            name = "url"
+            description = "Provide Permanent invite link for this server."
+        }
     }
 
     override suspend fun setup() {
@@ -31,7 +31,7 @@ class InviteLink : Extension() {
             description = "Setup invite link for this server"
             check { hasPermission(Permission.Administrator) }
             action {
-                val guildId = guild?.id?.asString.orEmpty()
+                val guildId = guild?.id?.toString().orEmpty()
                 val guildName = guild?.asGuild()?.name.bold()
                 val doesGuildConfigExist =
                     globalGuildRepository.checkIfConfigExistsForGuild(guildId)

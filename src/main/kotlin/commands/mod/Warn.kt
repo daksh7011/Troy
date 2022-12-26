@@ -2,7 +2,7 @@ package commands.mod
 
 import com.kotlindiscord.kord.extensions.checks.hasPermission
 import com.kotlindiscord.kord.extensions.commands.Arguments
-import com.kotlindiscord.kord.extensions.commands.converters.impl.coalescedString
+import com.kotlindiscord.kord.extensions.commands.converters.impl.string
 import com.kotlindiscord.kord.extensions.commands.converters.impl.user
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.chatCommand
@@ -34,8 +34,14 @@ class Warn : Extension() {
         get() = "warn"
 
     inner class WarnArguments : Arguments() {
-        val warnedUser by user("user", "Which user do you want to warn?")
-        val reason by coalescedString("reason", "Reason for the warning.")
+        val warnedUser by user {
+            name = "user"
+            description = "Which user do you want to warn?"
+        }
+        val reason by string {
+            name = "reason"
+            description = "Reason for the warning."
+        }
     }
 
     override suspend fun setup() {
@@ -53,8 +59,8 @@ class Warn : Extension() {
                 requireBotPermissions(Permission.BanMembers)
             }
             action {
-                val guildId = message.getGuild().id.asString
-                val userId = arguments.warnedUser.id.asString
+                val guildId = message.getGuild().id.toString()
+                val userId = arguments.warnedUser.id.toString()
                 val warnReason = arguments.reason
                 val moderator = "${message.author?.username}#${message.author?.discriminator}"
 
@@ -82,7 +88,7 @@ class Warn : Extension() {
                                     setupKickedEmbed(
                                         arguments.warnedUser.mention,
                                         reason,
-                                        "<@${kordClient.selfId.asString}>",
+                                        "<@${kordClient.selfId}>",
                                         kordClient,
                                     )
                                 }
@@ -92,6 +98,7 @@ class Warn : Extension() {
                                 )
                             }
                         }
+
                         is WarningMode.Ban -> {
                             try {
                                 banLogsRepository.insertBanLog(arguments.warnedUser, reason, "Troy")
@@ -103,7 +110,7 @@ class Warn : Extension() {
                                     setupBannedEmbed(
                                         arguments.warnedUser.mention,
                                         reason,
-                                        "<@${kordClient.selfId.asString}>",
+                                        "<@${kordClient.selfId}>",
                                         kordClient
                                     )
                                 }
@@ -113,6 +120,7 @@ class Warn : Extension() {
                                 )
                             }
                         }
+
                         is WarningMode.None -> {
                             message.channel.createEmbed {
                                 setupEmbedForNoneWarningMode(arguments.warnedUser.mention)
@@ -140,8 +148,8 @@ class Warn : Extension() {
                 requireBotPermissions(Permission.BanMembers)
             }
             action {
-                val guildId = guild?.asGuild()?.id?.asString.orEmpty()
-                val userId = arguments.warnedUser.id.asString
+                val guildId = guild?.asGuild()?.id?.toString().orEmpty()
+                val userId = arguments.warnedUser.id.toString()
                 val warnReason = arguments.reason
                 val moderator = "${member?.asUser()?.username}#${member?.asUser()?.discriminator}"
 
@@ -164,7 +172,7 @@ class Warn : Extension() {
                             is WarningMode.Kick -> {
                                 try {
                                     kickLogsRepository.insertKickLog(arguments.warnedUser, reason, "Troy")
-                                    warningLogsRepository.deleteWarningsForUser(arguments.warnedUser.id.asString)
+                                    warningLogsRepository.deleteWarningsForUser(arguments.warnedUser.id.toString())
                                     guild?.kick(arguments.warnedUser.id, reason)
                                     embed {
                                         setupKickedEmbed(
@@ -181,10 +189,11 @@ class Warn : Extension() {
                                     }
                                 }
                             }
+
                             is WarningMode.Ban -> {
                                 try {
                                     banLogsRepository.insertBanLog(arguments.warnedUser, reason, "Troy")
-                                    warningLogsRepository.deleteWarningsForUser(arguments.warnedUser.id.asString)
+                                    warningLogsRepository.deleteWarningsForUser(arguments.warnedUser.id.toString())
                                     guild?.ban(arguments.warnedUser.id) { this.reason = reason }
                                     embed {
                                         setupBannedEmbed(
@@ -201,6 +210,7 @@ class Warn : Extension() {
                                     }
                                 }
                             }
+
                             is WarningMode.None -> {
                                 embed {
                                     setupEmbedForNoneWarningMode(arguments.warnedUser.mention)

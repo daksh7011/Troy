@@ -22,14 +22,14 @@ repositories {
 }
 
 dependencies {
-    implementation("com.kotlindiscord.kord.extensions:kord-extensions:1.5.1-RC1")
+    implementation("com.kotlindiscord.kord.extensions:kord-extensions:1.5.2-RC1")
     implementation("com.kotlindiscord.kord.extensions:time4j:1.5.1-RC1")
-    implementation("org.slf4j:slf4j-simple:1.7.36")
+    implementation("org.slf4j:slf4j-simple:2.0.5")
     implementation("net.dean.jraw:JRAW:1.1.0")
-    implementation("io.getunleash:unleash-client-java:5.1.0")
+    implementation("io.getunleash:unleash-client-java:7.0.0")
     implementation("dev.kord.x:emoji:0.5.0")
-    implementation("com.github.discordbotlist:dbl-java-library:2.0.1")
-    implementation("org.litote.kmongo:kmongo-coroutine:4.6.1")
+    implementation("com.github.discordbotlist:dbl-java-library:2.1.2")
+    implementation("org.litote.kmongo:kmongo-coroutine:4.8.0")
     implementation("com.gitlab.technowolf:links-detektor:1.0.1")
 }
 

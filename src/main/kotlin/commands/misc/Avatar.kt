@@ -21,7 +21,10 @@ class Avatar : Extension() {
         get() = "avatar"
 
     inner class AvatarArguments : Arguments() {
-        val user by optionalUser("user", "Get avatar of mentioned user or yours if no user is mentioned.")
+        val user by optionalUser {
+            name = "user"
+            description = "Get avatar of mentioned user or yours if no user is mentioned."
+        }
     }
 
     override suspend fun setup() {

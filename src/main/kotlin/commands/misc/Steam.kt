@@ -1,8 +1,10 @@
 package commands.misc
 
+import apiModels.SteamGameModel
+import apiModels.SteamSearchModel
 import com.kotlindiscord.kord.extensions.DISCORD_FUCHSIA
 import com.kotlindiscord.kord.extensions.commands.Arguments
-import com.kotlindiscord.kord.extensions.commands.converters.impl.coalescedString
+import com.kotlindiscord.kord.extensions.commands.converters.impl.string
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.chatCommand
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
@@ -21,8 +23,6 @@ import kotlinx.datetime.Clock
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
-import apiModels.SteamGameModel
-import apiModels.SteamSearchModel
 import org.koin.core.component.inject
 import org.koin.core.logger.Level
 import utils.getEmbedFooter
@@ -44,7 +44,10 @@ class Steam : Extension() {
         get() = "steam"
 
     class SteamSearchArguments : Arguments() {
-        val gameName by coalescedString("game-name", "Which game do you want to search for?")
+        val gameName by string {
+            name = "game-name"
+            description = "Which game do you want to search for?"
+        }
     }
 
     override suspend fun setup() {
@@ -63,9 +66,11 @@ class Steam : Extension() {
                             HttpStatusCode.BadRequest -> {
                                 getKoin().logger.log(Level.ERROR, localizedMessage)
                             }
+
                             HttpStatusCode.NotFound -> {
                                 this@action.message.respond("Can't the data for requested game!")
                             }
+
                             else -> getKoin().logger.log(Level.ERROR, localizedMessage)
                         }
                     })
@@ -90,9 +95,11 @@ class Steam : Extension() {
                                 HttpStatusCode.BadRequest -> {
                                     getKoin().logger.log(Level.ERROR, localizedMessage)
                                 }
+
                                 HttpStatusCode.NotFound -> {
                                     this@action.message.respond("Can't the data for requested game!")
                                 }
+
                                 else -> getKoin().logger.log(Level.ERROR, localizedMessage)
                             }
                         }
@@ -123,9 +130,11 @@ class Steam : Extension() {
                                 HttpStatusCode.BadRequest -> {
                                     getKoin().logger.log(Level.ERROR, localizedMessage)
                                 }
+
                                 HttpStatusCode.NotFound -> {
                                     this@action.respond { content = "Can't the data for requested game!" }
                                 }
+
                                 else -> getKoin().logger.log(Level.ERROR, localizedMessage)
                             }
                         })
@@ -150,9 +159,11 @@ class Steam : Extension() {
                                     HttpStatusCode.BadRequest -> {
                                         getKoin().logger.log(Level.ERROR, localizedMessage)
                                     }
+
                                     HttpStatusCode.NotFound -> {
                                         this@action.respond { content = "Can't the data for requested game!" }
                                     }
+
                                     else -> getKoin().logger.log(Level.ERROR, localizedMessage)
                                 }
                             }

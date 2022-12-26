@@ -1,5 +1,6 @@
 package commands.`fun`
 
+import apiModels.DoggoModel
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.converters.impl.defaultingString
 import com.kotlindiscord.kord.extensions.extensions.Extension
@@ -16,11 +17,10 @@ import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.datetime.Clock
-import apiModels.DoggoModel
 import org.koin.core.component.inject
 import org.koin.core.logger.Level
-import utils.requestAndCatch
 import utils.getEmbedFooter
+import utils.requestAndCatch
 
 class Doggo : Extension() {
 
@@ -36,11 +36,11 @@ class Doggo : Extension() {
         get() = "doggo"
 
     class DoggoArguments : Arguments() {
-        val breed by defaultingString("breed", "Which breed of good boi you want to see?", "random")
-    }
-
-    class DoggoSlashArguments : Arguments() {
-        val breedName by defaultingString("breed", "Which breed of good boi you want to see?", "random")
+        val breed by defaultingString {
+            name = "breed"
+            description = "Which breed of good boi you want to see?"
+            defaultValue = "random"
+        }
     }
 
     override suspend fun setup() {
@@ -59,6 +59,7 @@ class Doggo : Extension() {
                             HttpStatusCode.NotFound -> {
                                 this@action.message.respond("Can't find any good boi photo.")
                             }
+
                             else -> getKoin().logger.log(Level.ERROR, localizedMessage)
                         }
                     }
@@ -73,12 +74,12 @@ class Doggo : Extension() {
             }
         }
 
-        publicSlashCommand(::DoggoSlashArguments) {
+        publicSlashCommand(::DoggoArguments) {
             name = "doggo"
             description = "Finds some cute doggo images."
             action {
-                val url = if (arguments.breedName == "random") "https://dog.ceo/api/breeds/image/random"
-                else "https://dog.ceo/api/breed/${arguments.breedName}/images/random"
+                val url = if (arguments.breed == "random") "https://dog.ceo/api/breeds/image/random"
+                else "https://dog.ceo/api/breed/${arguments.breed}/images/random"
                 httpClient.requestAndCatch(
                     {
                         doggoModel = get<DoggoModel>(url)
@@ -88,6 +89,7 @@ class Doggo : Extension() {
                             HttpStatusCode.NotFound -> {
                                 this@action.respond { content = "Can't find any good boi photo." }
                             }
+
                             else -> getKoin().logger.log(Level.ERROR, localizedMessage)
                         }
                     }

@@ -13,11 +13,10 @@ class Understandable : Extension() {
         get() = "understandable"
 
     inner class UnderstandableArgument : Arguments() {
-        val user by optionalUser("user", "Which user you want to wish great day.")
-    }
-
-    inner class UnderstandableSlashArgument : Arguments() {
-        val user by optionalUser("user", "Which user you want to wish great day.")
+        val user by optionalUser {
+            name = "user"
+            description = "Which user you want to wish great day."
+        }
     }
 
     override suspend fun setup() {
@@ -30,7 +29,7 @@ class Understandable : Extension() {
                 else message.channel.createMessage("${arguments.user?.mention}, Understandable, Have a great day.")
             }
         }
-        publicSlashCommand(::UnderstandableSlashArgument) {
+        publicSlashCommand(::UnderstandableArgument) {
             name = "understandable"
             description = "Sends understandable have a great day on request."
             action {

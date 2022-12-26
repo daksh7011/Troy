@@ -1,7 +1,7 @@
 package commands.`fun`
 
 import com.kotlindiscord.kord.extensions.commands.Arguments
-import com.kotlindiscord.kord.extensions.commands.converters.impl.coalescedString
+import com.kotlindiscord.kord.extensions.commands.converters.impl.string
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.chatCommand
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
@@ -16,10 +16,10 @@ class Emoji : Extension() {
         get() = "emoji"
 
     inner class EmojiArguments : Arguments() {
-        val emoji by coalescedString(
-            "emoji-name",
-            "Which emoji would you like me to send? PS: Animated emoji are supported."
-        )
+        val emoji by string {
+            name = "emoji-name"
+            description = "Which emoji would you like me to send? PS: Animated emoji are supported."
+        }
     }
 
     override suspend fun setup() {

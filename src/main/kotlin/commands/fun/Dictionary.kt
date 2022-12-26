@@ -33,7 +33,10 @@ class Dictionary : Extension() {
         get() = "dictionary"
 
     class DictionaryArguments : Arguments() {
-        val word by string("word", "Which word do you wanna search?")
+        val word by string {
+            name = "word"
+            description = "Which word do you wanna search?"
+        }
     }
 
     override suspend fun setup() {
@@ -79,6 +82,7 @@ class Dictionary : Extension() {
                         HttpStatusCode.NotFound -> {
                             respond { content = "No results found for ${arguments.word}" }
                         }
+
                         else -> getKoin().logger.log(Level.ERROR, localizedMessage)
                     }
                 })

@@ -131,7 +131,7 @@ suspend fun main() {
         }
         val globalGuildRepository: GlobalGuildRepository = troy.getKoin().get()
         kordClient.guilds.collect { guild ->
-            globalGuildRepository.insertGlobalGuildConfig(guild.id.asString)
+            globalGuildRepository.insertGlobalGuildConfig(guild.id.toString())
         }
     }
     troy.on<DisconnectEvent> {

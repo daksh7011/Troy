@@ -13,7 +13,10 @@ class Tereko : Extension() {
         get() = "tereko"
 
     inner class TerekoArgument : Arguments() {
-        val user by optionalUser("user", "Which user you want to wish great day.")
+        val user by optionalUser {
+            name = "user"
+            description = "Which user you want to wish great day."
+        }
     }
 
     override suspend fun setup() {
